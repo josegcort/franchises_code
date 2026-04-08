@@ -1,7 +1,5 @@
 package com.tt.franchises.domain.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,5 +11,5 @@ import lombok.Data;
 public class Branch {
 	private String id;
     private String name;
-    private List<Product> products;
+    private String franchiseId;
 }
