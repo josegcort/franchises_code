@@ -21,6 +21,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+/**
+ * Handler for managing franchise-related HTTP requests.
+ */
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -30,6 +33,7 @@ public class FranchiseHandler {
 	private final Validator validator;
 	private final MessageSource msgSrc;
 
+	// Handler method for creating a new franchise
 	public Mono<ServerResponse> create(ServerRequest request) {
 		return request.bodyToMono(FranchiseRequest.class).flatMap(req -> {
 
@@ -56,12 +60,14 @@ public class FranchiseHandler {
 				.bodyValue(franchise));
 	}
 
+	// Handler method for returning a franchise by its ID
 	public Mono<ServerResponse> getById(ServerRequest request) {
 		String id = request.pathVariable("id");
 		return useCase.getById(id)//
 				.flatMap(f -> ServerResponse.ok().bodyValue(f));
 	}
 
+	// Handler method for returning all franchises
 	public Mono<ServerResponse> getAll(ServerRequest request) {
 		return ServerResponse.ok().body(useCase.getAll(), Franchise.class);
 	}

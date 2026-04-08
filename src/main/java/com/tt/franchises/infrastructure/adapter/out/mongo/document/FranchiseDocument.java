@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Document class representing a franchise in the MongoDB database.
+ */
 @Data
 @AllArgsConstructor
 @Document(collection = "franchises")

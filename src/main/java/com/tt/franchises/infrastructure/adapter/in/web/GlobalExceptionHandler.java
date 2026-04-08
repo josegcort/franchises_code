@@ -23,6 +23,7 @@ import reactor.core.publisher.Mono;
 @Order(-2)
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
+	// Handle the exception and return a JSON response with the error details.
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
 

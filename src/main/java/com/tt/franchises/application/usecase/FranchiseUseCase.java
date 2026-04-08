@@ -14,6 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * Use case for managing franchises.
+ */
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -22,6 +25,7 @@ public class FranchiseUseCase {
 	private final FranchiseRepository repo;
 	private final MessageSource msgSrc;
 
+	// Create a new franchise
 	public Mono<Franchise> create(Franchise franchise) {
 
 		// Validate that the name is not null or empty
@@ -53,6 +57,7 @@ public class FranchiseUseCase {
 				});
 	}
 
+	// Get a franchise by ID
 	public Mono<Franchise> getById(String id) {
 		return repo.findById(id).switchIfEmpty(//
 				Mono.error(//
@@ -62,6 +67,7 @@ public class FranchiseUseCase {
 				));
 	}
 
+	// Get all franchises
 	public Flux<Franchise> getAll() {
 		return repo.findAll();
 	}

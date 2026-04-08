@@ -6,9 +6,13 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+/**
+ * Router configuration for franchise-related HTTP endpoints.
+ */
 @Configuration
 public class FranchiseRouter {
 
+	// Define the router function for handling franchise-related requests
 	@Bean
 	public RouterFunction<ServerResponse> franchiseRoutes(FranchiseHandler handler) {
 		return RouterFunctions.route()//

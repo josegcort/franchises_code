@@ -5,6 +5,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.google.gson.Gson;
 
+/**
+ * Utility class for common operations
+ */
 public class Operations {
 
 	/**

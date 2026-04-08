@@ -5,6 +5,9 @@ import com.tt.franchises.domain.model.Franchise;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * Repository interface for managing Franchise entities.
+ */
 public interface FranchiseRepository {
 	Mono<Franchise> save(Franchise franchise);
 

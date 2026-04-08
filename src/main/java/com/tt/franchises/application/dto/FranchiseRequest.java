@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * DTO for franchise creation requests.
+ */
 @Data
 @AllArgsConstructor
 public class FranchiseRequest {

@@ -5,6 +5,9 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Model for a franchise, which contains multiple branches.
+ */
 @Data
 @AllArgsConstructor
 public class Franchise {

@@ -6,8 +6,9 @@ import com.tt.franchises.infrastructure.adapter.out.mongo.document.FranchiseDocu
 
 import reactor.core.publisher.Mono;
 
+/**
+ * MongoDB repository for managing Franchise documents.
+ */
 public interface FranchiseMongoRepository extends ReactiveMongoRepository<FranchiseDocument, String> {
-
 	Mono<FranchiseDocument> findByNameIgnoreCase(String name);
-
 }

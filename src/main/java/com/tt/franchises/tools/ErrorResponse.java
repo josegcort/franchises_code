@@ -3,6 +3,9 @@ package com.tt.franchises.tools;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Represents an error response structure for API responses.
+ */
 @Data
 @AllArgsConstructor
 public class ErrorResponse {
