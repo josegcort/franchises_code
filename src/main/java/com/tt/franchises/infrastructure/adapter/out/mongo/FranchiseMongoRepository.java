@@ -6,4 +6,6 @@ import reactor.core.publisher.Mono;
 
 public interface FranchiseMongoRepository extends ReactiveMongoRepository<FranchiseDocument, String> {
 
+	Mono<FranchiseDocument> findByNameIgnoreCase(String name);
+
 }

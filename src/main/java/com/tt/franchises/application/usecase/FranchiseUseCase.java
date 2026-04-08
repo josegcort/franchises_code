@@ -18,7 +18,18 @@ public class FranchiseUseCase {
 	private final FranchiseRepository repo;
 
 	public Mono<Franchise> create(Franchise franchise) {
-		return repo.save(franchise);//
+		return repo.findByNameIgnoreCase(franchise.getName())//
+				.hasElement()//
+				.flatMap(exists -> {//
+					if (exists) {//
+						return Mono.error(//
+								new ResponseStatusException(//
+										HttpStatus.CONFLICT, //
+										"Ya existe una franquicia con este nombre."//
+						));//
+					} //
+					return repo.save(franchise);//
+				});
 	}
 
 	public Mono<Franchise> getById(String id) {

@@ -10,5 +10,7 @@ public interface FranchiseRepository {
 
 	Mono<Franchise> findById(String id);
 
+	Mono<Franchise> findByNameIgnoreCase(String name);
+	
 	Flux<Franchise> findAll();
 }

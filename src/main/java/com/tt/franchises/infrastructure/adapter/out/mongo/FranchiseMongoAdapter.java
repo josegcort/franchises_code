@@ -31,4 +31,9 @@ public class FranchiseMongoAdapter implements FranchiseRepository {
 		return repo.findAll().map(mapper::toDomain);
 	}
 
+	@Override
+	public Mono<Franchise> findByNameIgnoreCase(String name) {
+		return repo.findByNameIgnoreCase(name).map(mapper::toDomain);
+	}
+
 }
