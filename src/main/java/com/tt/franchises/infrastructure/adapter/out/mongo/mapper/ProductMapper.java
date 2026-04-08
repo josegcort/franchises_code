@@ -1,8 +1,9 @@
-package com.tt.franchises.infrastructure.adapter.out.mongo;
+package com.tt.franchises.infrastructure.adapter.out.mongo.mapper;
 
 import org.springframework.stereotype.Component;
 
 import com.tt.franchises.domain.model.Product;
+import com.tt.franchises.infrastructure.adapter.out.mongo.document.ProductDocument;
 
 @Component
 public class ProductMapper {

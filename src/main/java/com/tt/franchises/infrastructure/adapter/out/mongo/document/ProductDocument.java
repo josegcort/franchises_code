@@ -1,4 +1,4 @@
-package com.tt.franchises.infrastructure.adapter.out.mongo;
+package com.tt.franchises.infrastructure.adapter.out.mongo.document;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

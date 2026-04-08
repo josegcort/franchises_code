@@ -1,9 +1,11 @@
-package com.tt.franchises.infrastructure.adapter.out.mongo;
+package com.tt.franchises.infrastructure.adapter.out.mongo.adapter;
 
 import org.springframework.stereotype.Component;
 
 import com.tt.franchises.domain.model.Franchise;
 import com.tt.franchises.domain.port.FranchiseRepository;
+import com.tt.franchises.infrastructure.adapter.out.mongo.mapper.FranchiseMapper;
+import com.tt.franchises.infrastructure.adapter.out.mongo.repository.FranchiseMongoRepository;
 
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
