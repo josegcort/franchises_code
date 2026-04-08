@@ -16,4 +16,8 @@ public class Operations {
 
 		return gson.toJson(object);
 	}
+
+	public static boolean validateString(String value) {
+		return value == null || value.isBlank();
+	}
 }
