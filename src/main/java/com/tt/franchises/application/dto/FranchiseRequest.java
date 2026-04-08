@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class FranchiseRequest {
 
-	@NotBlank(message = "El nombre es obligatorio")
+	@NotBlank(message = "El nombre de la franquicia es obligatorio.")
 	private String name;
 }
