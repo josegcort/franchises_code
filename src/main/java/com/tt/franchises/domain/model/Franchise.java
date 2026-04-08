@@ -1,7 +1,5 @@
 package com.tt.franchises.domain.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
