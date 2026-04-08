@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 public class FranchiseRouter {
 
 	@Bean
-	public RouterFunction<ServerResponse> franquiciaRoutes(FranchiseHandler handler) {
+	public RouterFunction<ServerResponse> franchiseRoutes(FranchiseHandler handler) {
 		return RouterFunctions.route()//
 				.POST("/franchises", handler::create)//
 				.GET("/franchises/{id}", handler::getById)//

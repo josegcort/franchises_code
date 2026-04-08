@@ -1,5 +1,8 @@
 package com.tt.franchises.application.usecase;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,12 +22,15 @@ import reactor.core.publisher.Mono;
 public class FranchiseUseCase {
 
 	private final FranchiseRepository repo;
+	private final MessageSource msgSrc;
 
 	public Mono<Franchise> create(Franchise franchise) {
 
 		// Validate that the name is not null or empty
 		if (Operations.validateString(franchise.getName())) {
-			String error = "El nombre de la franquicia es obligatorio.";
+			String error = Operations.getMessage(msgSrc, "error.franchise.name.required");
+
+			log.error(error);
 
 			return Mono.error(new ResponseStatusException(//
 					HttpStatus.BAD_REQUEST, error//
@@ -36,8 +42,10 @@ public class FranchiseUseCase {
 				.hasElement()//
 				.flatMap(exists -> {//
 					if (exists) {//
-						String error = "Ya existe una franquicia con este nombre.";
+						String error = Operations.getMessage(msgSrc, "error.franchise.name.duplicate");
+
 						log.error(error);
+
 						return Mono.error(//
 								new ResponseStatusException(//
 										HttpStatus.CONFLICT, error//
@@ -51,7 +59,7 @@ public class FranchiseUseCase {
 		return repo.findById(id).switchIfEmpty(//
 				Mono.error(//
 						new ResponseStatusException(//
-								HttpStatus.NOT_FOUND, "No se encontro una franquicia con este ID."//
+								HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.franchise.notfoundById")//
 						)//
 				));
 	}
