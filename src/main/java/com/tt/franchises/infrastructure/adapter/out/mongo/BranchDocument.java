@@ -1,0 +1,17 @@
+package com.tt.franchises.infrastructure.adapter.out.mongo;
+
+import java.util.List;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+@Document(collection = "branches")
+public class BranchDocument {
+	private String id;
+    private String name;
+    private List<ProductDocument> products;
+}
