@@ -1,10 +1,10 @@
 package com.tt.franchises.usecase;
 
-import java.util.List;
-
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ import reactor.test.StepVerifier;
 class FranchiseUseCaseTest {
 
 	@Mock
-	private FranchiseRepository repository;
+	private FranchiseRepository repo;
 
 	@Mock
 	private MessageSource msgSrc;
@@ -47,8 +47,8 @@ class FranchiseUseCaseTest {
 		Franchise itemNew = new Franchise(null, "Sede AXM", List.of());
 		Franchise itemSaved = new Franchise("123xyz", "Sede AXM", List.of());
 
-		when(repository.findByNameIgnoreCase("Sede AXM")).thenReturn(Mono.empty());
-		when(repository.save(any(Franchise.class))).thenReturn(Mono.just(itemSaved));
+		when(repo.findByNameIgnoreCase("Sede AXM")).thenReturn(Mono.empty());
+		when(repo.save(any(Franchise.class))).thenReturn(Mono.just(itemSaved));
 
 		StepVerifier.create(//
 				useCase.create(itemNew))//
@@ -64,7 +64,7 @@ class FranchiseUseCaseTest {
 		Franchise itemOld = new Franchise("123xyz", "Sede AXM", List.of());
 		Franchise itemNew = new Franchise(null, "Sede AXM", List.of());
 
-		when(repository.findByNameIgnoreCase("Sede AXM")).thenReturn(Mono.just(itemOld));
+		when(repo.findByNameIgnoreCase("Sede AXM")).thenReturn(Mono.just(itemOld));
 
 		StepVerifier.create(//
 				useCase.create(itemNew))//
@@ -95,7 +95,7 @@ class FranchiseUseCaseTest {
 	// not found error
 	@Test
 	void getById_whenItDoesNotExist_shouldReturnNotFound() {
-		when(repository.findById(anyString())).thenReturn(Mono.empty());
+		when(repo.findById(anyString())).thenReturn(Mono.empty());
 
 		StepVerifier.create(//
 				useCase.getById("123xyz"))//
@@ -111,7 +111,7 @@ class FranchiseUseCaseTest {
 	void findById_whenItExists_shouldReturnFranchise() {
 		Franchise itemNew = new Franchise("123xyz", "Sede AXM", List.of());
 
-		when(repository.findById("123xyz")).thenReturn(Mono.just(itemNew));
+		when(repo.findById("123xyz")).thenReturn(Mono.just(itemNew));
 
 		StepVerifier.create(//
 				useCase.getById("123xyz"))//
@@ -130,7 +130,7 @@ class FranchiseUseCaseTest {
 		Franchise item1 = new Franchise("123xyz", "Sede AXM", List.of());
 		Franchise item2 = new Franchise("123abc", "Sede PEI", List.of());
 
-		when(repository.findAll()).thenReturn(Flux.just(item1, item2));
+		when(repo.findAll()).thenReturn(Flux.just(item1, item2));
 
 		StepVerifier.create(//
 				useCase.getAll())//
@@ -145,7 +145,7 @@ class FranchiseUseCaseTest {
 	// no franchises exist
 	@Test
 	void findAll_whenNoFranchisesExist_shouldReturnEmptyFlux() {
-		when(repository.findAll()).thenReturn(Flux.empty());
+		when(repo.findAll()).thenReturn(Flux.empty());
 
 		StepVerifier.create(//
 				useCase.getAll())//
