@@ -1,7 +1,5 @@
 package com.tt.franchises.application.usecase;
 
-import java.util.Locale;
-
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
