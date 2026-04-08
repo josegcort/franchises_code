@@ -1,6 +1,5 @@
-package com.tt.franchises.infrastructure.adapter.in.web;
+package com.tt.franchises.infrastructure.adapter.in.web.handler;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.context.MessageSource;
@@ -35,29 +34,31 @@ public class FranchiseHandler {
 
 	// Handler method for creating a new franchise
 	public Mono<ServerResponse> create(ServerRequest request) {
-		return request.bodyToMono(FranchiseRequest.class).flatMap(req -> {
+		return request.bodyToMono(FranchiseRequest.class)//
+				.flatMap(req -> {
 
-			// Validate the request using the Validator
-			Set<ConstraintViolation<FranchiseRequest>> violations = validator.validate(req);
+					// Validate the request using the Validator
+					Set<ConstraintViolation<FranchiseRequest>> violations = validator.validate(req);
 
-			// If there are validation errors, return a 400 Bad Request response with the error message
-			if (!violations.isEmpty()) {
-				String error = violations.iterator().next().getMessage();
-				String errorValue = Operations.getMessage(msgSrc, error);
+					// If there are validation errors, return a 400 Bad Request response with the
+					// error message
+					if (!violations.isEmpty()) {
+						String error = violations.iterator().next().getMessage();
+						String errorValue = Operations.getMessage(msgSrc, error);
 
-				log.error(errorValue);
-				
-				return Mono.error(//
-						new ResponseStatusException(//
-								HttpStatus.BAD_REQUEST, //
-								errorValue//
-				));//
-			}
+						log.error(errorValue);
 
-			return useCase.create(new Franchise(null, req.getName(), List.of()));
-		}).flatMap(franchise -> ServerResponse//
-				.status(HttpStatus.CREATED)//
-				.bodyValue(franchise));
+						return Mono.error(//
+								new ResponseStatusException(//
+										HttpStatus.BAD_REQUEST, //
+										errorValue//
+						));//
+					}
+
+					return useCase.create(new Franchise(null, req.getName()));
+				}).flatMap(franchise -> ServerResponse//
+						.status(HttpStatus.CREATED)//
+						.bodyValue(franchise));
 	}
 
 	// Handler method for returning a franchise by its ID

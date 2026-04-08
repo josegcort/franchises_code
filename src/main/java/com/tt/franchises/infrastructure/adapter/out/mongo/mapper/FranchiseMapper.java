@@ -23,13 +23,7 @@ public class FranchiseMapper {
 		if (doc == null)
 			return null;
 
-		List<Branch> branches = doc.getBranches() == null //
-				? List.of()//
-				: doc.getBranches().stream()//
-						.map(item -> branchMapper.toDomain(item))//
-						.collect(Collectors.toList());
-
-		return new Franchise(doc.getId(), doc.getName(), branches);
+		return new Franchise(doc.getId(), doc.getName());
 	}
 
 	// Domain > Document
@@ -37,13 +31,7 @@ public class FranchiseMapper {
 		if (model == null)
 			return null;
 
-		List<BranchDocument> branches = model.getBranches() == null //
-				? List.of()//
-				: model.getBranches().stream()//
-						.map(item -> branchMapper.toDocument(item))//
-						.collect(Collectors.toList());
-
-		return new FranchiseDocument(model.getId(), model.getName(), branches);
+		return new FranchiseDocument(model.getId(), model.getName());
 	}
 
 }

@@ -4,8 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,7 +28,7 @@ import reactor.test.StepVerifier;
 class FranchiseUseCaseTest {
 
 	@Mock
-	private FranchiseRepository repo;
+	private FranchiseRepository franchiseRepo;
 
 	@Mock
 	private MessageSource msgSrc;
@@ -44,16 +42,17 @@ class FranchiseUseCaseTest {
 	// Test to validate the correct creation of a franchise
 	@Test
 	void create_shouldSaveAndReturnFranchise() {
-		Franchise itemNew = new Franchise(null, "Sede AXM", List.of());
-		Franchise itemSaved = new Franchise("123xyz", "Sede AXM", List.of());
+		Franchise itemNew = new Franchise(null, "AXM");
+		Franchise itemSaved = new Franchise("123xyz", "AXM");
 
-		when(repo.findByNameIgnoreCase("Sede AXM")).thenReturn(Mono.empty());
-		when(repo.save(any(Franchise.class))).thenReturn(Mono.just(itemSaved));
+		when(franchiseRepo.findByNameIgnoreCase("AXM")).thenReturn(Mono.empty());
+		when(franchiseRepo.save(any(Franchise.class))).thenReturn(Mono.just(itemSaved));
 
 		StepVerifier.create(//
 				useCase.create(itemNew))//
 				.expectNextMatches(//
-						f -> f.getId().equals("123xyz") && f.getName().equals("Sede AXM"))//
+						f -> f.getId().equals("123xyz") //
+								&& f.getName().equals("AXM"))//
 				.verifyComplete();
 	}
 
@@ -61,10 +60,10 @@ class FranchiseUseCaseTest {
 	// conflict error
 	@Test
 	void create_whenItAlreadyExists_shouldReturnConflict() {
-		Franchise itemOld = new Franchise("123xyz", "Sede AXM", List.of());
-		Franchise itemNew = new Franchise(null, "Sede AXM", List.of());
+		Franchise itemOld = new Franchise("123xyz", "AXM");
+		Franchise itemNew = new Franchise(null, "AXM");
 
-		when(repo.findByNameIgnoreCase("Sede AXM")).thenReturn(Mono.just(itemOld));
+		when(franchiseRepo.findByNameIgnoreCase("AXM")).thenReturn(Mono.just(itemOld));
 
 		StepVerifier.create(//
 				useCase.create(itemNew))//
@@ -78,7 +77,7 @@ class FranchiseUseCaseTest {
 	// a bad request error
 	@Test
 	void create_whenNameIsNull_shouldReturnBadRequest() {
-		Franchise itemNew = new Franchise(null, null, List.of());
+		Franchise itemNew = new Franchise(null, null);
 
 		StepVerifier.create(//
 				useCase.create(itemNew))//
@@ -95,7 +94,7 @@ class FranchiseUseCaseTest {
 	// not found error
 	@Test
 	void getById_whenItDoesNotExist_shouldReturnNotFound() {
-		when(repo.findById(anyString())).thenReturn(Mono.empty());
+		when(franchiseRepo.findById(anyString())).thenReturn(Mono.empty());
 
 		StepVerifier.create(//
 				useCase.getById("123xyz"))//
@@ -109,9 +108,9 @@ class FranchiseUseCaseTest {
 	// franchise
 	@Test
 	void findById_whenItExists_shouldReturnFranchise() {
-		Franchise itemNew = new Franchise("123xyz", "Sede AXM", List.of());
+		Franchise itemSaved = new Franchise("123xyz", "AXM");
 
-		when(repo.findById("123xyz")).thenReturn(Mono.just(itemNew));
+		when(franchiseRepo.findById("123xyz")).thenReturn(Mono.just(itemSaved));
 
 		StepVerifier.create(//
 				useCase.getById("123xyz"))//
@@ -127,17 +126,17 @@ class FranchiseUseCaseTest {
 	// of franchises
 	@Test
 	void findAll_shouldReturnAllFranchises() {
-		Franchise item1 = new Franchise("123xyz", "Sede AXM", List.of());
-		Franchise item2 = new Franchise("123abc", "Sede PEI", List.of());
+		Franchise item1 = new Franchise("123xyz", "AXM");
+		Franchise item2 = new Franchise("123abc", "PEI");
 
-		when(repo.findAll()).thenReturn(Flux.just(item1, item2));
+		when(franchiseRepo.findAll()).thenReturn(Flux.just(item1, item2));
 
 		StepVerifier.create(//
 				useCase.getAll())//
 				.expectNextMatches(//
-						f -> f.getName().equals("Sede AXM")//
+						f -> f.getName().equals("AXM")//
 				).expectNextMatches(//
-						f -> f.getName().equals("Sede PEI"))//
+						f -> f.getName().equals("PEI"))//
 				.verifyComplete();
 	}
 
@@ -145,7 +144,7 @@ class FranchiseUseCaseTest {
 	// no franchises exist
 	@Test
 	void findAll_whenNoFranchisesExist_shouldReturnEmptyFlux() {
-		when(repo.findAll()).thenReturn(Flux.empty());
+		when(franchiseRepo.findAll()).thenReturn(Flux.empty());
 
 		StepVerifier.create(//
 				useCase.getAll())//

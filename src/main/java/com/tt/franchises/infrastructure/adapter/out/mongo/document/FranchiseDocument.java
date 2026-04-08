@@ -16,5 +16,4 @@ import lombok.Data;
 public class FranchiseDocument {
     private String id;
     private String name;
-    private List<BranchDocument> branches;
 }

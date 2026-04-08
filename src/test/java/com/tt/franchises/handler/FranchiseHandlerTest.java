@@ -3,8 +3,6 @@ package com.tt.franchises.handler;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.tt.franchises.application.dto.FranchiseRequest;
 import com.tt.franchises.application.usecase.FranchiseUseCase;
 import com.tt.franchises.domain.model.Franchise;
-import com.tt.franchises.infrastructure.adapter.in.web.FranchiseHandler;
-import com.tt.franchises.infrastructure.adapter.in.web.FranchiseRouter;
+import com.tt.franchises.infrastructure.adapter.in.web.handler.FranchiseHandler;
+import com.tt.franchises.infrastructure.adapter.in.web.router.FranchiseRouter;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -63,11 +61,11 @@ class FranchiseHandlerTest {
 	// Test case for creating a franchise successfully
 	@Test
 	void create_shouldSave_shouldReturn201() {
-		Franchise itemSaved = new Franchise("123xyz", "Sede AXM", List.of());
+		Franchise itemSaved = new Franchise("123xyz", "AXM");
 
 		when(useCase.create(any(Franchise.class))).thenReturn(Mono.just(itemSaved));
 
-		FranchiseRequest franchiseRequest = new FranchiseRequest("Sede AXM");
+		FranchiseRequest franchiseRequest = new FranchiseRequest("AXM");
 
 		client.post()//
 				.uri("/franchises")//
@@ -97,14 +95,14 @@ class FranchiseHandlerTest {
 	// Test case for creating a franchise with a duplicate name, expecting a 409
 	@Test
 	void create_whenItAlreadyExists_shouldReturn409() {
-		Franchise itemNew = new Franchise(null, "Sede AXM", List.of());
+		Franchise itemNew = new Franchise(null, "AXM");
 
 		when(useCase.create(itemNew)).thenReturn(Mono.error(//
 				new ResponseStatusException(//
 						HttpStatus.CONFLICT, "Ya existe una franquicia con este nombre.")//
 		));
 
-		FranchiseRequest franchiseRequest = new FranchiseRequest("Sede AXM");
+		FranchiseRequest franchiseRequest = new FranchiseRequest("AXM");
 
 		client.post().uri("/franchises")//
 				.contentType(MediaType.APPLICATION_JSON)//
@@ -133,7 +131,7 @@ class FranchiseHandlerTest {
 	// response with the correct data
 	@Test
 	void getById_whenItExists_shouldReturn200() {
-		Franchise itemSaved = new Franchise("123xyz", "Sede AXM", List.of());
+		Franchise itemSaved = new Franchise("123xyz", "AXM");
 
 		when(useCase.getById("123xyz")).thenReturn(Mono.just(itemSaved));
 
@@ -141,17 +139,18 @@ class FranchiseHandlerTest {
 				.exchange()//
 				.expectStatus().isOk()//
 				.expectBody()//
-				.jsonPath("$.name").isEqualTo("Sede AXM");
+				.jsonPath("$.name").isEqualTo("AXM");
 	}
 
 	/**
 	 * Test FindAll
 	 */
-	// Test case for finding all franchises when some exist, expecting a 200 OK and array of franchises
+	// Test case for finding all franchises when some exist, expecting a 200 OK and
+	// array of franchises
 	@Test
 	void getAll_shouldReturn200() {
-		Franchise item1 = new Franchise("123xyz", "Sede AXM", List.of());
-		Franchise item2 = new Franchise("123abc", "Sede PEI", List.of());
+		Franchise item1 = new Franchise("123xyz", "AXM");
+		Franchise item2 = new Franchise("123abc", "PEI");
 
 		when(useCase.getAll()).thenReturn(Flux.just(item1, item2));
 
@@ -165,7 +164,8 @@ class FranchiseHandlerTest {
 				.jsonPath("$[1].id").isEqualTo("123abc");
 	}
 
-	// Test case for finding all franchises when none exist, expecting a 200 OK and an empty array
+	// Test case for finding all franchises when none exist, expecting a 200 OK and
+	// an empty array
 	@Test
 	void getAll_whenNoFranchisesExist_shouldReturn200() {
 		when(useCase.getAll()).thenReturn(Flux.empty());

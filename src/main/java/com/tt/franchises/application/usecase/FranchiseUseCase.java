@@ -62,7 +62,7 @@ public class FranchiseUseCase {
 		return repo.findById(id).switchIfEmpty(//
 				Mono.error(//
 						new ResponseStatusException(//
-								HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.franchise.notfoundById")//
+								HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.franchise.notFoundById")//
 						)//
 				));
 	}
