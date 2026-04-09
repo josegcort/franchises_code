@@ -40,7 +40,7 @@ public class Operations {
 	 * @return true if the integer is null or negative, false otherwise
 	 */
 	public static boolean validateInteger(Integer value) {
-		return value == null && !validateIntegerNegative(value);
+		return value == null;
 	}
 	
 	/**
@@ -61,6 +61,10 @@ public class Operations {
 	 * @return the localized message corresponding to the provided key
 	 */
 	public static String getMessage(MessageSource messageSource, String key) {
-	    return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+		try {
+		    return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+		} catch (Exception e) {
+			return key;
+		}
 	}
 }

@@ -55,9 +55,20 @@ public class ProductUseCase {
 			);
 		}
 
-		// Validate that the stock is not null or empty
+		// Validate that the stock is not null
 		if (Operations.validateInteger(product.getStock())) {
 			String error = Operations.getMessage(msgSrc, "error.product.stock.required");
+
+			log.error(error);
+
+			return Mono.error(//
+					new ResponseStatusException(HttpStatus.BAD_REQUEST, error)//
+			);
+		}
+		
+		// Validate that the stock is negative
+		if (Operations.validateIntegerNegative(product.getStock())) {
+			String error = Operations.getMessage(msgSrc, "error.product.stock.positive");
 
 			log.error(error);
 
@@ -92,12 +103,36 @@ public class ProductUseCase {
 	}
 
 	// Update the stock of a product
-	public Mono<Product> updateStock(String id, int newStock) {
+	public Mono<Product> updateStock(String id, Integer newStock) {
+
+		// Validate that the stock is not null
+		if (Operations.validateInteger(newStock)) {
+			String error = Operations.getMessage(msgSrc, "error.product.stock.required");
+
+			log.error(error);
+
+			return Mono.error(//
+					new ResponseStatusException(HttpStatus.BAD_REQUEST, error)//
+			);
+		}
+
+		// Validate that the stock is negative
+		if (Operations.validateIntegerNegative(newStock)) {
+			String error = Operations.getMessage(msgSrc, "error.product.stock.positive");
+
+			log.error(error);
+
+			return Mono.error(//
+					new ResponseStatusException(HttpStatus.BAD_REQUEST, error)//
+			);
+		}
+
 		return productRepo.findById(id)//
 				.switchIfEmpty(//
 						Mono.error(//
 								new ResponseStatusException(//
-										HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.product.notFoundById")//
+										HttpStatus.NOT_FOUND,
+										Operations.getMessage(msgSrc, "error.product.notFoundById")//
 								)))//
 				.flatMap(product -> productRepo.save(//
 						new Product(product.getId(), product.getName(), newStock, product.getBranchId())//
@@ -110,7 +145,8 @@ public class ProductUseCase {
 				.switchIfEmpty(//
 						Mono.error(//
 								new ResponseStatusException(//
-										HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.product.notFoundById")//
+										HttpStatus.NOT_FOUND,
+										Operations.getMessage(msgSrc, "error.product.notFoundById")//
 								)))//
 				.flatMap(//
 						product -> productRepo.delete(product.getId())//
