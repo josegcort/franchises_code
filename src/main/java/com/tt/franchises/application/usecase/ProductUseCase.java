@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.tt.franchises.application.dto.TopStockProductResponse;
 import com.tt.franchises.domain.model.Product;
 import com.tt.franchises.domain.port.BranchRepository;
+import com.tt.franchises.domain.port.FranchiseRepository;
 import com.tt.franchises.domain.port.ProductRepository;
 import com.tt.franchises.tools.Operations;
 
@@ -25,6 +27,7 @@ public class ProductUseCase {
 
 	private final ProductRepository productRepo;
 	private final BranchRepository branchRepo;
+	private final FranchiseRepository franchiseRepo;
 	private final MessageSource msgSrc;
 
 	// Create a new product
@@ -94,7 +97,7 @@ public class ProductUseCase {
 				.switchIfEmpty(//
 						Mono.error(//
 								new ResponseStatusException(//
-										HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.product.not.found")//
+										HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.product.notFoundById")//
 								)))//
 				.flatMap(product -> productRepo.save(//
 						new Product(product.getId(), product.getName(), newStock, product.getBranchId())//
@@ -107,7 +110,7 @@ public class ProductUseCase {
 				.switchIfEmpty(//
 						Mono.error(//
 								new ResponseStatusException(//
-										HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.product.not.found")//
+										HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.product.notFoundById")//
 								)))//
 				.flatMap(//
 						product -> productRepo.delete(product.getId())//
@@ -132,6 +135,28 @@ public class ProductUseCase {
 	// Get a product by branchId
 	public Flux<Product> getByBranchId(String branchId) {
 		return productRepo.findByBranchId(branchId);
+	}
+
+	// Get the product with the most stock for each branch of a franchise
+	public Flux<TopStockProductResponse> getTopStockPerBranch(String franchiseId) {
+		return franchiseRepo.findById(franchiseId)//
+				// The franchise must exist
+				.switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
+						Operations.getMessage(msgSrc, "error.franchise.notFoundById"))))
+				// For each branch of that franchise, look for the product with the most stock.
+				.flatMapMany(//
+						f -> branchRepo.findByFranchiseId(franchiseId)//
+				)//
+				.flatMap(branch -> productRepo.findTopByBranchIdOrderByStockDesc(//
+						branch.getId()//
+				)// If the branch doesn't have products, it skips it instead of failing.
+						.map(product -> new TopStockProductResponse(//
+								branch.getId(), //
+								branch.getName(), //
+								product.getId(), //
+								product.getName(), //
+								product.getStock()//
+						)));
 	}
 
 }

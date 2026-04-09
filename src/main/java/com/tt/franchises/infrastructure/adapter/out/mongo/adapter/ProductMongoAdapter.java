@@ -57,4 +57,10 @@ public class ProductMongoAdapter implements ProductRepository {
 		 return repo.deleteById(id);
 	}
 
+	// Find the product with the most stock for a given branchId and return it if found.
+	@Override
+	public Mono<Product> findTopByBranchIdOrderByStockDesc(String branchId) {
+		return repo.findTopByBranchIdOrderByStockDesc(branchId);
+	}
+
 }

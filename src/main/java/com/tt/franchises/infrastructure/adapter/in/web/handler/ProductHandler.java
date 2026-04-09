@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.tt.franchises.application.dto.ProductRequest;
 import com.tt.franchises.application.dto.ProductStockRequest;
+import com.tt.franchises.application.dto.TopStockProductResponse;
 import com.tt.franchises.application.usecase.ProductUseCase;
 import com.tt.franchises.domain.model.Product;
 import com.tt.franchises.tools.Operations;
@@ -117,4 +118,10 @@ public class ProductHandler {
 		return ServerResponse.ok().body(useCase.getAll(), Product.class);
 	}
 
+	// Handler method for returning the product with the most stock for each branch of a franchise
+	public Mono<ServerResponse> getTopStockPerBranch(ServerRequest request) {
+		String franchiseId = request.pathVariable("franchiseId");
+		return ServerResponse.ok()//
+				.body(useCase.getTopStockPerBranch(franchiseId), TopStockProductResponse.class);
+	}
 }

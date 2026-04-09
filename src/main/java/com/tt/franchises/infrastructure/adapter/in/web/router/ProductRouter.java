@@ -24,6 +24,7 @@ public class ProductRouter {
 				.GET("/products/{id}", handler::getById)//
 				.GET("/branches/{branchId}/products", handler::getByBranchId)//
 				.GET("/products", handler::getAll)//
+				.GET("/franchises/{franchiseId}/top-stock", handler::getTopStockPerBranch)//
 				.build();
 	}
 }

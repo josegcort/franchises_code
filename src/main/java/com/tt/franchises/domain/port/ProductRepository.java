@@ -20,5 +20,7 @@ public interface ProductRepository {
 	Flux<Product> findByBranchId(String branchId);
 
 	Flux<Product> findAll();
+	
+	Mono<Product> findTopByBranchIdOrderByStockDesc(String branchId);
 
 }
