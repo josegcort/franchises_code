@@ -61,8 +61,8 @@ class BranchUseCaseTest {
 		StepVerifier.create(//
 				useCase.create(itemNew))//
 				.expectNextMatches(//
-						f -> f.getId().equals("123xyz")//
-								&& f.getName().equals("Sede Norte"))//
+						b -> b.getId().equals("123xyz")//
+								&& b.getName().equals("Sede Norte"))//
 				.verifyComplete();
 	}
 
@@ -148,7 +148,7 @@ class BranchUseCaseTest {
 		StepVerifier.create(//
 				useCase.getById("123xyz"))//
 				.expectNextMatches(//
-						f -> f.getId().equals("123xyz"))//
+						b -> b.getId().equals("123xyz"))//
 				.verifyComplete();
 	}
 
@@ -167,9 +167,9 @@ class BranchUseCaseTest {
 		StepVerifier.create(//
 				useCase.getAll())//
 				.expectNextMatches(//
-						f -> f.getName().equals("Sede Norte")//
+						b -> b.getName().equals("Sede Norte")//
 				).expectNextMatches(//
-						f -> f.getName().equals("Sede Sur"))//
+						b -> b.getName().equals("Sede Sur"))//
 				.verifyComplete();
 	}
 
@@ -200,9 +200,9 @@ class BranchUseCaseTest {
 		StepVerifier.create(//
 				useCase.getByFranchiseId(franchiseId))//
 				.expectNextMatches(//
-						f -> f.getName().equals("Sede Norte")//
+						b -> b.getName().equals("Sede Norte")//
 				).expectNextMatches(//
-						f -> f.getName().equals("Sede Sur"))//
+						b -> b.getName().equals("Sede Sur"))//
 				.verifyComplete();
 	}
 
