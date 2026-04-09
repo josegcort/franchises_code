@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    container_name: franchises-app
+    ports:
+      - "8090:8090"
+    environment:
+      MONGODB_URI: "mongodb+srv://franchises_db_user:cKXubg97ZY78jygA@cluster0.daqtolv.mongodb.net/franchise_db?appName=Cluster0"
+      PORT_SERVER: 8090
+      ENV: prod
