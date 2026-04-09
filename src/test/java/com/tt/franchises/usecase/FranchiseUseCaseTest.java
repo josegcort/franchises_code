@@ -76,7 +76,7 @@ class FranchiseUseCaseTest {
 	// Test to validate that creating a franchise with a null or empty name returns
 	// a bad request error
 	@Test
-	void create_whenNameIsNull_shouldReturnBadRequest() {
+	void create_whenNameIsEmpty_shouldReturnBadRequest() {
 		Franchise itemNew = new Franchise(null, null);
 
 		StepVerifier.create(//
