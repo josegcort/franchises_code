@@ -12,8 +12,8 @@ public class ProductMapper {
 	public Product toDomain(ProductDocument doc) {
 		if (doc == null)
 			return null;
-		
-		return new Product(doc.getId(), doc.getName(), doc.getStock());
+
+		return new Product(doc.getId(), doc.getName(), doc.getStock(), doc.getBranchId());
 	}
 
 	// Domain > Document
@@ -21,7 +21,7 @@ public class ProductMapper {
 		if (model == null)
 			return null;
 
-		return new ProductDocument(model.getId(), model.getName(), model.getStock());
+		return new ProductDocument(model.getId(), model.getName(), model.getStock(), model.getBranchId());
 	}
 
 }

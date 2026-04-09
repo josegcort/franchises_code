@@ -15,4 +15,5 @@ public class ProductDocument {
 	private String id;
 	private String name;
 	private Integer stock;
+	private String branchId;
 }
