@@ -23,6 +23,11 @@ WORKDIR /app
 # Copy the build JAR
 COPY --from=build /app/target/franchises-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8060
+# security: run as non-root user
+# Create a non-root user to run the application
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 
-ENTRYPOINT ["java","-jar","app.jar","--spring.profiles.active=prod"]
+EXPOSE ${PORT_SERVER}
+
+ENTRYPOINT ["java","-jar","app.jar"]
