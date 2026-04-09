@@ -2,9 +2,10 @@
 
 **Autor:** Jose Gabriel Cortazar Ocampo
 
-# Franchises API
+## Descripción
 
-REST API reactiva para la gestión de franquicias, sucursales y productos,
+**Franchises API**
+Este repositorio contiene el codigo de un API-REST reactiva para la gestión de franquicias, sucursales y productos,
 desarrollada con Spring Boot WebFlux y MongoDB Atlas.
 
 ---
@@ -32,7 +33,7 @@ separando el dominio, los casos de uso y la infraestructura en capas independien
 
 ## Endpoints
 
-Se adjunta el archivo JSON API-Franchises.postman_collection.json, el cual puede ser importado en Postman para probar y explorar los endpoints de la API.
+Se anexa el archivo `API-Franchises.postman_collection.json` para importar en Postman y facilitar la prueba de los endpoints.
 
 ### Franquicias
 
