@@ -39,13 +39,13 @@ public class BranchMongoAdapter implements BranchRepository {
 		return repo.findAll().map(mapper::toDomain);
 	}
 
-	// Find all branchs in the database and return them as a Flux.
+	//  Find a branch by franchiseId and return them as a Flux.
 	@Override
 	public Flux<Branch> findByFranchiseId(String franchiseId) {
 		return repo.findByFranchiseId(franchiseId).map(mapper::toDomain);
 	}
 
-	// Find a branch by its name (case-insensitive) and return it if found.
+	// Find a branch by its name and franchiseId and return it if found.
 	@Override
 	public Mono<Branch> findByNameIgnoreCaseAndFranchiseId(String name, String franchiseId) {
 		return repo.findByNameIgnoreCaseAndFranchiseId(name, franchiseId).map(mapper::toDomain);

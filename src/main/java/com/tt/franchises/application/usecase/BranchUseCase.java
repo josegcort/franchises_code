@@ -73,8 +73,7 @@ public class BranchUseCase {
 												Operations.getMessage(msgSrc, "error.branch.name.duplicate")//
 								));
 							}
-							Branch toSave = new Branch(null, branch.getName(), branch.getFranchiseId());
-							return branchRepo.save(toSave);
+							return branchRepo.save(branch);
 						}));
 	}
 

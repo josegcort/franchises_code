@@ -70,14 +70,14 @@ public class BranchHandler {
 				.flatMap(b -> ServerResponse.ok().bodyValue(b));
 	}
 
-	// Handler method for returning a branch by its FranchiseId
+	// Handler method for returning a branches by its FranchiseId
 	public Mono<ServerResponse> getByFranchiseId(ServerRequest request) {
 		String franchiseId = request.pathVariable("franchiseId");
 		return ServerResponse.ok().body(useCase.getByFranchiseId(franchiseId), Branch.class);
 	}
 
 	
-	// Handler method for returning all branchs
+	// Handler method for returning all branches
 	public Mono<ServerResponse> getAll(ServerRequest request) {
 		return ServerResponse.ok().body(useCase.getAll(), Branch.class);
 	}
