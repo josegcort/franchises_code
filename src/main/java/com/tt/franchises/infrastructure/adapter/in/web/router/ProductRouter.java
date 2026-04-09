@@ -19,7 +19,7 @@ public class ProductRouter {
 	public RouterFunction<ServerResponse> productRoutes(ProductHandler handler) {
 		return RouterFunctions.route()//
 				.POST("/products", handler::create)//
-				.PATCH("/products/{id}", handler::updateStock)//
+				.PATCH("/products/{id}/stock", handler::updateStock)//
 				.DELETE("/products/{id}", handler::delete)//
 				.GET("/products/{id}", handler::getById)//
 				.GET("/branches/{branchId}/products", handler::getByBranchId)//
