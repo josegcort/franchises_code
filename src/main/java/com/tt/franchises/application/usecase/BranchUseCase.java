@@ -36,9 +36,9 @@ public class BranchUseCase {
 
 			log.error(error);
 
-			return Mono.error(new ResponseStatusException(//
-					HttpStatus.BAD_REQUEST, error//
-			));
+			return Mono.error(//
+					new ResponseStatusException(HttpStatus.BAD_REQUEST, error)//
+			);
 		}
 
 		// Validate that the name is not null or empty
@@ -47,15 +47,19 @@ public class BranchUseCase {
 
 			log.error(error);
 
-			return Mono.error(new ResponseStatusException(//
-					HttpStatus.BAD_REQUEST, error//
-			));
+			return Mono.error(//
+					new ResponseStatusException(HttpStatus.BAD_REQUEST, error)//
+			);
 		}
 
 		return franchiseRepo.findById(branch.getFranchiseId())
 				// Validate that the franchise exists
-				.switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
-						Operations.getMessage(msgSrc, "error.franchise.notFoundById"))))
+				.switchIfEmpty(//
+						Mono.error(//
+								new ResponseStatusException(//
+										HttpStatus.NOT_FOUND,
+										Operations.getMessage(msgSrc, "error.franchise.notFoundById")//
+								)))
 
 				// Validate that the name is unique
 				.flatMap(franchise -> //
@@ -63,9 +67,10 @@ public class BranchUseCase {
 						.hasElement()//
 						.flatMap(exists -> {//
 							if (exists) {
-								return Mono.error(new ResponseStatusException(//
-										HttpStatus.CONFLICT, //
-										Operations.getMessage(msgSrc, "error.branch.name.duplicate")//
+								return Mono.error(//
+										new ResponseStatusException(//
+												HttpStatus.CONFLICT, //
+												Operations.getMessage(msgSrc, "error.branch.name.duplicate")//
 								));
 							}
 							Branch toSave = new Branch(null, branch.getName(), branch.getFranchiseId());

@@ -66,6 +66,42 @@ class BranchUseCaseTest {
 				.verifyComplete();
 	}
 
+	// Test to validate that creating a branch with a null or empty name returns
+	// a bad request error
+	@Test
+	void create_whenNameIsEmpty_shouldReturnBadRequest() {
+		Branch itemNew = new Branch(null, null, franchiseId);
+
+		StepVerifier.create(//
+				useCase.create(itemNew))//
+				.expectErrorMatches(//
+						ex -> ex instanceof ResponseStatusException rse //
+								&& rse.getStatusCode() == HttpStatus.BAD_REQUEST)//
+				.verify();
+	}
+
+	// Test case for creating a branch with an null or empty name, expecting a Bad
+	// Request response
+	@Test
+	void create_whenFranchiseIsNEmpty_shouldReturnBadRequest() {
+		Branch itemNew = new Branch(null, "Sede Norte", "");
+
+		StepVerifier.create(useCase.create(itemNew)).expectErrorMatches(ex -> ex instanceof ResponseStatusException rse //
+				&& rse.getStatusCode() == HttpStatus.BAD_REQUEST).verify();
+	}
+
+	// Test to validate that creating a branch for a non-existent franchise returns
+	// a not found error
+	@Test
+	void create_whenFranchiseDoesNotExist_shouldReturnNotFound() {
+		Branch itemNew = new Branch(null, "Sede Norte", franchiseId);
+
+		when(franchiseRepo.findById(franchiseId)).thenReturn(Mono.empty());
+
+		StepVerifier.create(useCase.create(itemNew)).expectErrorMatches(ex -> ex instanceof ResponseStatusException rse //
+				&& rse.getStatusCode() == HttpStatus.NOT_FOUND).verify();
+	}
+
 	// Test to validate that creating a branch with an existing name returns a
 	// conflict error
 	@Test
@@ -81,34 +117,6 @@ class BranchUseCaseTest {
 				.expectErrorMatches(//
 						ex -> ex instanceof ResponseStatusException rse //
 								&& rse.getStatusCode() == HttpStatus.CONFLICT)//
-				.verify();
-	}
-
-	// Test to validate that creating a branch with a null or empty name returns
-	// a bad request error
-	@Test
-	void create_whenNameIsNull_shouldReturnBadRequest() {
-		Branch itemNew = new Branch(null, null, franchiseId);
-
-		StepVerifier.create(//
-				useCase.create(itemNew))//
-				.expectErrorMatches(//
-						ex -> ex instanceof ResponseStatusException rse //
-								&& rse.getStatusCode() == HttpStatus.BAD_REQUEST)//
-				.verify();
-	}
-
-	// Test to validate that creating a branch for a non-existent franchise returns
-	// a not found error
-	@Test
-	void create_whenFranchiseDoesNotExist_shouldReturnNotFound() {
-		Branch itemNew = new Branch(null, "Sede Norte", franchiseId);
-
-		when(franchiseRepo.findById(franchiseId)).thenReturn(Mono.empty());
-
-		StepVerifier.create(useCase.create(itemNew))
-				.expectErrorMatches(
-						ex -> ex instanceof ResponseStatusException rse && rse.getStatusCode() == HttpStatus.NOT_FOUND)
 				.verify();
 	}
 
