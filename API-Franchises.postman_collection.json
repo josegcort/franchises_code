@@ -1,0 +1,367 @@
+{
+  "info": {
+    "_postman_id": "308f4982-fd4a-437e-b939-29e0bf34d65a",
+    "name": "API-Franchises",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32864415"
+  },
+  "item": [
+    {
+      "name": "FranchisesGetAll",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/franchises",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "franchises"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "FranchiseGetById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/franchises/69d80a097724c4a20208428a",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "franchises",
+            "69d80a097724c4a20208428a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "FranchiseCreate",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"PEI\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{host}}:{{port}}/franchises",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "franchises"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BranchesGetAll",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/branches",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "branches"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BranchGetById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/branches/69d8181c060360a7a3277e54",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "branches",
+            "69d8181c060360a7a3277e54"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BranchesGetByFranchiseId",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/franchises/69d80a097724c4a20208428a/branches",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "franchises",
+            "69d80a097724c4a20208428a",
+            "branches"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BranchCreate",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Sede Sur\",\r\n    \"franchiseId\": \"69d80a147724c4a20208428b\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{host}}:{{port}}/branches",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "branches"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ProductsGetAll",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/products",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ProductGetById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/products/69d81876060360a7a3277e58",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "products",
+            "69d81876060360a7a3277e58"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ProductsGetByBranchId",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/branches/69d8181c060360a7a3277e54/products",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "branches",
+            "69d8181c060360a7a3277e54",
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ProductsGetTopStock",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/franchises/69d80a097724c4a20208428a/top-stock",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "franchises",
+            "69d80a097724c4a20208428a",
+            "top-stock"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ProductCreate",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Pollo\",\r\n    \"stock\": 21,\r\n    \"branchId\": \"69d81836060360a7a3277e57\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{host}}:{{port}}/products",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ProductUpdateStock",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"stock\": 33\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{host}}:{{port}}/products/69d7336e90185fc53ac4ba0a/stock",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "products",
+            "69d7336e90185fc53ac4ba0a",
+            "stock"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ProductDelete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"stock\": 19\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{host}}:{{port}}/products/69d725c190185fc53ac4b9ca",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "products",
+            "69d725c190185fc53ac4b9ca"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": ""
+    },
+    {
+      "key": "port",
+      "value": ""
+    }
+  ]
+}
