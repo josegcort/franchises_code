@@ -111,10 +111,11 @@ class BranchHandlerTest {
 				.expectStatus().isBadRequest();
 	}
 
+	// Test case for creating a branch with a non-existent franchiseId, expecting a 404 Not Found response
 	@Test
 	void create_whenFranchiseDoesNotExist_shouldReturn404() {
 		when(useCase.create(any(Branch.class)))
-				.thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Franquicia no encontrada")));
+				.thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "No se encontró una sucursal con este ID.")));
 
 		client.post()//
 				.uri("/branches")//
@@ -131,7 +132,7 @@ class BranchHandlerTest {
 
 		when(useCase.create(itemNew)).thenReturn(Mono.error(//
 				new ResponseStatusException(//
-						HttpStatus.CONFLICT, "Ya existe una franquicia con este nombre.")//
+						HttpStatus.CONFLICT, "Ya existe una sucursal con este nombre en esa misma franquicia.")//
 		));
 
 		BranchRequest branchRequest = new BranchRequest("Sede Norte", franchiseId);
@@ -151,7 +152,7 @@ class BranchHandlerTest {
 	@Test
 	void getById_whenItDoesNotExist_shouldReturn404() {
 		when(useCase.getById("123xyz")).thenReturn(Mono.error(//
-				new ResponseStatusException(HttpStatus.NOT_FOUND, "No encontrada")//
+				new ResponseStatusException(HttpStatus.NOT_FOUND, "No se encontró una sucursal con este ID.")//
 		));
 
 		client.get().uri("/branches/123xyz")//

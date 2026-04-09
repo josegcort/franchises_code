@@ -119,7 +119,7 @@ class FranchiseHandlerTest {
 	@Test
 	void getById_whenItDoesNotExist_shouldReturn404() {
 		when(useCase.getById("123xyz")).thenReturn(Mono.error(//
-				new ResponseStatusException(HttpStatus.NOT_FOUND, "No encontrada")//
+				new ResponseStatusException(HttpStatus.NOT_FOUND, "No se encontró una franquicia con este ID.")//
 		));
 
 		client.get().uri("/franchises/123xyz")//
