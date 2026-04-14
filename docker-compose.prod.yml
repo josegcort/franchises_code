@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    container_name: franchises-app
+    ports:
+      - "8090:8090"
+    environment:
+      MONGODB_URI: "Cadena de conexion a MongoDB Atlas"
+      PORT_SERVER: 8090
+      ENV: prod
