@@ -134,9 +134,11 @@ public class ProductUseCase {
 										HttpStatus.NOT_FOUND,
 										Operations.getMessage(msgSrc, "error.product.notFoundById")//
 								)))//
-				.flatMap(product -> productRepo.save(//
-						new Product(product.getId(), product.getName(), newStock, product.getBranchId())//
-				));
+				.flatMap(product -> {//
+					//Update stock
+					product.setStock(newStock);
+					return productRepo.save(product);
+				});
 	}
 
 	// Delete a product by ID
