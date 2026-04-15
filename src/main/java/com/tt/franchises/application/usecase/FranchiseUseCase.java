@@ -72,4 +72,39 @@ public class FranchiseUseCase {
 		return repo.findAll();
 	}
 
+	public Mono<Franchise> updateName(String id, String newName) {
+		// Validate that the name is not null or empty
+		if (Operations.validateString(newName)) {
+			String error = Operations.getMessage(msgSrc, "error.franchise.name.required");
+
+			log.error(error);
+
+			return Mono.error(new ResponseStatusException(//
+					HttpStatus.BAD_REQUEST, error//
+			));
+		}
+
+		// Validate that the name is unique
+		return repo.findById(id).switchIfEmpty(//
+				Mono.error(//
+						new ResponseStatusException(//
+								HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.franchise.notFoundById")//
+						)//
+				))//
+					// Validate that the name is unique
+				.flatMap(franchise -> repo.findByNameIgnoreCase(newName).hasElement()//
+						.flatMap(exists -> {//
+							if (exists) {
+								return Mono.error(//
+										new ResponseStatusException(//
+												HttpStatus.CONFLICT, //
+												Operations.getMessage(msgSrc, "error.franchise.name.duplicate")//
+								));
+							}
+							// update name
+							franchise.setName(newName);
+							return repo.save(franchise);
+						}));
+	}
+
 }

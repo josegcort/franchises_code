@@ -42,6 +42,7 @@ Se anexa el archivo `API-Franchises.postman_collection.json` para importar en Po
 | POST | `/franchises` | Crear franquicia |
 | GET | `/franchises/{id}` | Buscar por ID |
 | GET | `/franchises` | Listar todas |
+| PATCH | `/franchises/{id}/name` | Actualizar el nombre |
 
 ### Sucursales
 
@@ -50,7 +51,7 @@ Se anexa el archivo `API-Franchises.postman_collection.json` para importar en Po
 | POST | `/branches` | Crear sucursal (franchiseId en el body) |
 | GET | `/branches/{id}` | Buscar por ID |
 | GET | `/branches/{franchiseId}/franchise` | Listar por franquicia |
-| PATCH | `/branches/{id}/name` | Actualiza el nombre |
+| PATCH | `/branches/{id}/name` | Actualizar el nombre |
 | GET | `/branches` | Listar todas |
 
 ### Productos
@@ -61,7 +62,7 @@ Se anexa el archivo `API-Franchises.postman_collection.json` para importar en Po
 | GET | `/products/{id}` | Buscar por ID |
 | GET | `/products/{branchId}/branch/` | Listar por sucurasales |
 | GET | `/products` | Listar todos |
-| PATCH | `/products/{id}/stock` | Actualiza el stock |
+| PATCH | `/products/{id}/stock` | Actualizar el stock |
 | DELETE | `/products/{id}` | Eliminar producto |
 
 ### Consultas especiales

@@ -67,6 +67,34 @@ public class FranchiseHandler {
 		return useCase.getById(id)//
 				.flatMap(f -> ServerResponse.ok().bodyValue(f));
 	}
+	
+	public Mono<ServerResponse> updateName(ServerRequest request) {
+		String id = request.pathVariable("id");
+		return request.bodyToMono(FranchiseRequest.class)//
+				.flatMap(req -> {
+					
+					// Validate the request using the Validator
+					Set<ConstraintViolation<FranchiseRequest>> violations = validator.validate(req);
+
+					// If there are validation errors, return a 400 Bad Request response with the
+					// error message
+					if (!violations.isEmpty()) {
+						String error = violations.iterator().next().getMessage();
+						String errorValue = Operations.getMessage(msgSrc, error);
+
+						log.error(errorValue);
+
+						return Mono.error(//
+								new ResponseStatusException(//
+										HttpStatus.BAD_REQUEST, //
+										errorValue//
+						));//
+					}
+					
+					return useCase.updateName(id, req.getName());
+				}).flatMap(franchise -> ServerResponse.ok()//
+						.bodyValue(franchise));
+	}
 
 	// Handler method for returning all franchises
 	public Mono<ServerResponse> getAll(ServerRequest request) {

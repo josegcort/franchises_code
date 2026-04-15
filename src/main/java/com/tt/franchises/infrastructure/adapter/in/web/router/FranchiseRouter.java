@@ -20,6 +20,7 @@ public class FranchiseRouter {
 		return RouterFunctions.route()//
 				.POST("/franchises", handler::create)//
 				.GET("/franchises/{id}", handler::getById)//
+				.PATCH("/franchises/{id}/name", handler::updateName)//
 				.GET("/franchises", handler::getAll)//
 				.build();
 	}
