@@ -87,6 +87,31 @@ public class BranchUseCase {
 				));
 	}
 
+	public Mono<Branch> updateName(String id, String name) {
+		return branchRepo.findById(id).switchIfEmpty(//
+				Mono.error(//
+						new ResponseStatusException(//
+								HttpStatus.NOT_FOUND, Operations.getMessage(msgSrc, "error.branch.notFoundById")//
+						)//
+				))//
+					// Validate that the name is unique
+				.flatMap(branch -> //
+				branchRepo.findByNameIgnoreCaseAndFranchiseId(name, branch.getFranchiseId())//
+						.hasElement()//
+						.flatMap(exists -> {//
+							if (exists) {
+								return Mono.error(//
+										new ResponseStatusException(//
+												HttpStatus.CONFLICT, //
+												Operations.getMessage(msgSrc, "error.branch.name.duplicate")//
+								));
+							}
+							//update name
+							branch.setName(name);
+							return branchRepo.save(branch);
+						}));
+	}
+
 	// Get all branchs
 	public Flux<Branch> getAll() {
 		return branchRepo.findAll();

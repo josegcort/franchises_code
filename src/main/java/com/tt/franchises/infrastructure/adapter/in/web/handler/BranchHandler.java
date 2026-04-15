@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.tt.franchises.application.dto.BranchNameRequest;
 import com.tt.franchises.application.dto.BranchRequest;
 import com.tt.franchises.application.usecase.BranchUseCase;
 import com.tt.franchises.domain.model.Branch;
@@ -37,7 +38,7 @@ public class BranchHandler {
 
 		return request.bodyToMono(BranchRequest.class)//
 				.flatMap(req -> {
-					
+
 					// Validate the request using the Validator
 					Set<ConstraintViolation<BranchRequest>> violations = validator.validate(req);
 
@@ -60,26 +61,63 @@ public class BranchHandler {
 				})//
 				.flatMap(branch -> ServerResponse//
 						.status(HttpStatus.CREATED)//
-						.bodyValue(branch));
+						.bodyValue(branch)//
+				);
 	}
 
 	// Handler method for returning a branch by its ID
 	public Mono<ServerResponse> getById(ServerRequest request) {
 		String id = request.pathVariable("id");
 		return useCase.getById(id)//
-				.flatMap(b -> ServerResponse.ok().bodyValue(b));
+				.flatMap(//
+						b -> ServerResponse.ok()//
+								.bodyValue(b)//
+				);
 	}
 
 	// Handler method for returning a branches by its FranchiseId
 	public Mono<ServerResponse> getByFranchiseId(ServerRequest request) {
 		String franchiseId = request.pathVariable("franchiseId");
-		return ServerResponse.ok().body(useCase.getByFranchiseId(franchiseId), Branch.class);
+		return ServerResponse.ok()//
+				.body(//
+						useCase.getByFranchiseId(franchiseId), Branch.class//
+				);
 	}
 
-	
 	// Handler method for returning all branches
 	public Mono<ServerResponse> getAll(ServerRequest request) {
-		return ServerResponse.ok().body(useCase.getAll(), Branch.class);
+		return ServerResponse.ok()//
+				.body(//
+						useCase.getAll(), Branch.class//
+				);
+	}
+
+	// Handler method for returning a branch by its ID
+	public Mono<ServerResponse> updateName(ServerRequest request) {
+		String id = request.pathVariable("id");
+		return request.bodyToMono(BranchNameRequest.class)//
+				.flatMap(req -> {
+					// Validate the request using the Validator
+					Set<ConstraintViolation<BranchNameRequest>> violations = validator.validate(req);
+
+					// If there are validation errors, return a 400 Bad Request response with the
+					// error message
+					if (!violations.isEmpty()) {
+						String error = violations.iterator().next().getMessage();
+						String errorValue = Operations.getMessage(msgSrc, error);
+
+						log.error(errorValue);
+
+						return Mono.error(//
+								new ResponseStatusException(//
+										HttpStatus.BAD_REQUEST, //
+										errorValue//
+						));//
+					}
+
+					return useCase.updateName(id, req.getName());
+				}).flatMap(branch -> ServerResponse.ok()//
+						.bodyValue(branch));
 	}
 
 }

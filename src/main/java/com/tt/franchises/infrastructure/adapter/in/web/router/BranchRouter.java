@@ -20,6 +20,7 @@ public class BranchRouter {
 		return RouterFunctions.route()//
 				.POST("/branches", handler::create)//
 				.GET("/branches/{id}", handler::getById)//
+				.PATCH("/branches/{id}/name", handler::updateName)//
 				.GET("/franchises/{franchiseId}/branches", handler::getByFranchiseId)//
 				.GET("/branches", handler::getAll)//
 				.build();
